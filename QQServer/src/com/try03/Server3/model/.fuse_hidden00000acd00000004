@@ -1,0 +1,54 @@
+package com.try03.Server3.model;
+
+import com.try03.Server3.tools.threadManger;
+import com.try03.common.Message;
+import com.try03.common.User;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+/**
+ * Created by ztc on 15-11-2.
+ */
+public class myServer {
+
+    public myServer(){
+
+        try {
+            System.out.println("监听9988端口。。。。");
+            ServerSocket ss = new ServerSocket(9988);
+
+            while(true) {
+                Socket s = ss.accept();
+                ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+                User u = (User) ois.readObject();
+                System.out.println("收到UserName:" + u.getUserName() + " PassWard:" + u.getPassWard());
+                Message m = new Message();
+                ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+                if (u.getPassWard().equals(" ")) {
+                    m.setType("success");
+                    oos.writeObject(m);
+                    oos.close();
+                    //启动一个线程来服务
+                    myThread mythread=new myThread(s);
+                    mythread.start();
+                    threadManger.addThread(u.getUserName(),mythread);
+
+                } else {
+                    m.setType("failed");
+                    oos.writeObject(m);
+                    oos.close();
+                }
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+}
