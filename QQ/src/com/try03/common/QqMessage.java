@@ -5,9 +5,8 @@ import java.io.Serializable;
 /**
  * Created by ztc on 15-11-2.
  */
-public class Message implements Serializable {
+public class QqMessage implements Serializable {
     private String type;
-
     private String sender;
     private String getter;
     private String msg;
@@ -21,7 +20,7 @@ public class Message implements Serializable {
         this.friList = friList;
     }
 
-    public Message() {
+    public QqMessage() {
 
     }
 
@@ -33,14 +32,6 @@ public class Message implements Serializable {
         this.sender = sender;
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
     public String getGetter() {
         return getter;
     }
@@ -49,6 +40,13 @@ public class Message implements Serializable {
         this.getter = getter;
     }
 
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 
     public String getType() {
         return type;

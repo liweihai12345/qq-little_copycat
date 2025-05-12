@@ -1,16 +1,18 @@
 package com.try03.Client3.tools;
 
-import com.try03.Client3.view.list;
+import com.try03.Client3.view.List;
 
 /**
  * Created by ztc on 15-11-8.
  */
-public class listManger {
-    private static list mainL;
-    public static void setMainL(list L){
-        mainL=L;
+public class ListManger {
+    private static List mainL;
+
+    public static void setMainL(List L) {
+        mainL = L;
     }
-    public static list getMainL(){
+
+    public static List getMainL() {
         return mainL;
     }
 }

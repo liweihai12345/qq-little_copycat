@@ -1,7 +1,7 @@
 package com.try03.Server3.model;
 
 import com.try03.Server3.tools.threadManger;
-import com.try03.Server3.view.display;
+import com.try03.Server3.view.Display;
 import com.try03.common.Message;
 
 import java.io.IOException;
@@ -12,23 +12,24 @@ import java.util.Set;
 
 /**
  * Created by ztc on 15-11-4.
- *
  */
-public class myThread extends Thread{
+public class MyThread extends Thread {
     private Socket s;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
-    public myThread(Socket s,ObjectOutputStream oos,ObjectInputStream ois){
-        this.s=s;
-        this.oos=oos;
-        this.ois=ois;
+
+    public MyThread(Socket s, ObjectOutputStream oos, ObjectInputStream ois) {
+        this.s = s;
+        this.oos = oos;
+        this.ois = ois;
 
     }
-    public void sendList(){
-        Set<String> set=threadManger.bank.keySet();
-        Object[] list=set.toArray();
+
+    public void sendList() {
+        Set<String> set = threadManger.bank.keySet();
+        Object[] list = set.toArray();
         System.out.println(list.length);
-        Message l=new Message();
+        Message l = new Message();
         l.setType("getFriend");
         l.setFriList(list);
         try {
@@ -37,22 +38,23 @@ public class myThread extends Thread{
             e.printStackTrace();
         }
     }
-    public void run(){
+
+    public void run() {
 
         try {
-            while(true) {
-                Message m = (Message)ois.readObject();
-                if(m.getType().equals("sendMsg")) {
+            while (true) {
+                Message m = (Message) ois.readObject();
+                if (m.getType().equals("sendMsg")) {
                     System.out.println(s + m.getSender() + " 对 " + m.getGetter() + " 说：" + m.getMsg());
-                    display.di.showLog(s.getInetAddress()+" : "+m.getSender() + " 对 " + m.getGetter() + " 说：" + m.getMsg());
+                    Display.di.showLog(s.getInetAddress() + " : " + m.getSender() + " 对 " + m.getGetter() + " 说：" + m.getMsg());
                     //转发
-                    myThread fri = threadManger.getThread(m.getGetter());
+                    MyThread fri = threadManger.getThread(m.getGetter());
                     fri.oos.writeObject(m);
-                }else if(m.getType().equals("LoginOut")){
-                    display.di.showLog(m.getSender()+"下线！");
+                } else if (m.getType().equals("LoginOut")) {
+                    Display.di.showLog(m.getSender() + "下线！");
                     threadManger.delThread(m.getSender());
                     threadManger.friendAlert();
-                    System.out.println(m.getSender()+" loginOut!");
+                    System.out.println(m.getSender() + " loginOut!");
                 }
                 /*
                 else if(m.getType().equals("getFriend")){

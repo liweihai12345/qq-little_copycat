@@ -1,33 +1,30 @@
 package com.try03.Client3.view;
 
-import com.try03.Client3.model.clientUser;
-import com.try03.Client3.model.conServer;
-import com.try03.Client3.tools.chatManger;
-import com.try03.common.Message;
+import com.try03.Client3.model.ClientUser;
+import com.try03.Client3.tools.ChatManger;
+import com.try03.common.QqMessage;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.net.URL;
 
 /**
  * Created by ztc on 15-11-2.
  */
-public class chat extends JFrame implements ActionListener,KeyListener{
-    String userid,friendid;
+public class Chat extends JFrame implements ActionListener, KeyListener {
+    String userid, friendid;
     JTextArea jta;
     JScrollPane jsp;
     JTextField jtf;
     JButton jb;
     JPanel jp;
-    public static void main(String[] args){
-        chat ch=new chat("ni","ta");
+
+    public static void main(String[] args) {
+        Chat ch = new Chat("ni", "ta");
     }
 
-    public chat(final String userId, final String friendId) {
+    public Chat(final String userId, final String friendId) {
         this.userid = userId;
         this.friendid = friendId;
 
@@ -52,7 +49,7 @@ public class chat extends JFrame implements ActionListener,KeyListener{
         this.setLocation(500, 300);
         this.setResizable(false);
         this.setVisible(true);
-        URL qqUrl=chat.class.getResource("/image/qq.gif");
+        URL qqUrl = Chat.class.getResource("/image/qq.gif");
         this.setIconImage((new ImageIcon(qqUrl)).getImage());
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.addWindowListener(new WindowListener() {
@@ -63,8 +60,8 @@ public class chat extends JFrame implements ActionListener,KeyListener{
 
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println(userId+"_"+friendId+" is closing!");
-                chatManger.Delchat(userId+"_"+friendId);
+                System.out.println(userId + "_" + friendId + " is closing!");
+                ChatManger.Delchat(userId + "_" + friendId);
             }
 
             @Override
@@ -94,8 +91,8 @@ public class chat extends JFrame implements ActionListener,KeyListener{
         });
     }
 
-    public void ShowMsg(String msg){
-        jta.append(msg+"\r\n");
+    public void ShowMsg(String msg) {
+        jta.append(msg + "\r\n");
     }
 
 
@@ -103,14 +100,14 @@ public class chat extends JFrame implements ActionListener,KeyListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == jb) {
             jta.append(this.userid + " : " + jtf.getText() + "\r\n");
-            Message m = new Message();
+            QqMessage m = new QqMessage();
             m.setType("sendMsg");
             m.setSender(this.userid);
             m.setGetter(this.friendid);
             m.setMsg(jtf.getText());
             try {
-                System.out.println(clientUser.getSocket()+"发送");
-                clientUser.getOOS().writeObject(m);
+                System.out.println(ClientUser.getSocket() + "发送");
+                ClientUser.getOOS().writeObject(m);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -126,14 +123,14 @@ public class chat extends JFrame implements ActionListener,KeyListener{
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             jta.append(this.userid + " : " + jtf.getText() + "\r\n");
-            Message m = new Message();
+            QqMessage m = new QqMessage();
             m.setType("sendMsg");
             m.setSender(this.userid);
             m.setGetter(this.friendid);
             m.setMsg(jtf.getText());
             try {
-                System.out.println(clientUser.getSocket() + "发送");
-                clientUser.getOOS().writeObject(m);
+                System.out.println(ClientUser.getSocket() + "发送");
+                ClientUser.getOOS().writeObject(m);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

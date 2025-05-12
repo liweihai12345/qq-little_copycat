@@ -5,11 +5,11 @@ import java.io.Serializable;
 /**
  * Created by ztc on 15-11-2.
  */
-public class User implements Serializable {
+public class QqUser implements Serializable {
     private String userName;
     private String passWard;
 
-    public User() {
+    public QqUser(){
 
     }
 
